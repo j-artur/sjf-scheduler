@@ -1,3 +1,5 @@
+package scheduler;
+
 public class Process implements MinHeap.Item {
   private static int nextId = 0;
 
@@ -12,7 +14,7 @@ public class Process implements MinHeap.Item {
     this.name = name;
     this.burstTime = burstTime;
     this.remainingTime = burstTime;
-    this.message = "Hello, I'm " + name + " (id " + id + ")!";
+    this.message = "Hello, I'm process " + name + " (id " + id + ")!";
   }
 
   public int id() {
@@ -43,13 +45,16 @@ public class Process implements MinHeap.Item {
     return remainingTime <= 0;
   }
 
-  @Override
-  public int priority() {
-    return remainingTime;
+  public String nameAndId() {
+    return name + " (id " + id + ")";
+  }
+
+  public String nameAndTime() {
+    return name + " (" + remainingTime + "s)";
   }
 
   @Override
-  public String toString() {
-    return name + " (" + remainingTime + "s)";
+  public int priority() {
+    return remainingTime;
   }
 }

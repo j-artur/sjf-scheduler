@@ -1,4 +1,9 @@
+package scheduler;
+
 import java.util.ArrayList;
+
+import debug.Debug;
+import debug.Debug.Color;
 
 public class CPU {
   private MinHeap<Process> waitingQueue;
@@ -15,18 +20,37 @@ public class CPU {
     waitingQueue.insert(process);
   }
 
+  public void log(String string) {
+    Debug.println(Color.BLUE, String.format("[%03ds] %s", currentTime, string));
+  }
+
+  public void log(Color color, String string) {
+    Debug.println(Color.BLUE, String.format("[%03ds] %s%s", currentTime, color, string));
+  }
+
+  // log the waiting queue
+  public void printWaitingQueue() {
+    var names = String.join(", ", waitingQueue.stream().map(Process::name).toArray(String[]::new));
+    var times = String.join(", ",
+        waitingQueue.stream().map(p -> String.format("%03ds", p.burstTime())).toArray(String[]::new));
+    Debug.println(Color.PURPLE, "Waiting queue: / " + names + " \\");
+    Debug.println(Color.PURPLE, "               \\ " + times + " /");
+  }
+
   public void execute() {
     // If there is no current process, get the next process from the waiting queue
     if (currentProcess == null) {
+      if (currentTime == 0)
+        log("Starting CPU.");
+      else
+        log("CPU is idle.");
+
       currentProcess = waitingQueue.remove();
-      System.out
-          .println("Time: " + String.format("%03ds", currentTime) + ". CPU was idle, now executing " + currentProcess);
       processTimeCounter = 0;
     } else
     // If the current process is done, remove it from the CPU and get the next
     if (currentProcess.isDone()) {
-      System.out.println("Time: " + String.format("%03ds", currentTime) + ". " + currentProcess
-          + " is done, now executing " + waitingQueue.peek());
+      log(currentProcess.nameAndId() + " is done.");
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
     } else
@@ -36,15 +60,16 @@ public class CPU {
     if (processTimeCounter == 3) {
       waitingQueue.insert(currentProcess);
       currentProcess = waitingQueue.remove();
-      System.out.println("Time: " + String.format("%03ds", currentTime) + ". Now executing " + currentProcess);
       processTimeCounter = 0;
     }
 
     // Execute the current process
     if (currentProcess != null) {
       // If the current process just started, print its message
-      if (processTimeCounter == 0)
-        System.out.println(currentProcess.message());
+      if (processTimeCounter == 0) {
+        log("Selecting " + currentProcess.nameAndTime());
+        log(Color.GREEN, currentProcess.message());
+      }
 
       currentProcess.tick();
       processTimeCounter++;
