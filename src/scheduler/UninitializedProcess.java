@@ -5,10 +5,6 @@ public record UninitializedProcess(String name, int arrivalTime, int burstTime) 
     return new Process(name, burstTime);
   }
 
-  public String nameAndTime() {
-    return name + " (" + burstTime + "s)";
-  }
-
   @Override
   public int priority() {
     return arrivalTime;

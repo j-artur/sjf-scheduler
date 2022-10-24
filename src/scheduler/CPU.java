@@ -30,11 +30,11 @@ public class CPU {
 
   // log the waiting queue
   public void printWaitingQueue() {
-    var names = String.join(", ", waitingQueue.stream().map(Process::name).toArray(String[]::new));
-    var times = String.join(", ",
-        waitingQueue.stream().map(p -> String.format("%03ds", p.burstTime())).toArray(String[]::new));
-    Debug.println(Color.PURPLE, "Waiting queue: / " + names + " \\");
-    Debug.println(Color.PURPLE, "               \\ " + times + " /");
+    var names = String.join(" | ", waitingQueue.stream().map(Process::name).toArray(String[]::new));
+    var times = String.join(" | ",
+        waitingQueue.stream().map(p -> String.format("%03ds", p.remainingTime())).toArray(String[]::new));
+    log(Color.PURPLE, "Waiting queue: / " + names + " \\");
+    log(Color.PURPLE, "               \\ " + times + " /");
   }
 
   public void execute() {

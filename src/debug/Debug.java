@@ -33,19 +33,7 @@ public class Debug {
     }
   }
 
-  public static void print(String string) {
-    System.out.print(string);
-  }
-
-  public static void println(String string) {
-    System.out.println(string);
-  }
-
-  public static void print(Color color, String string) {
-    print(color + string + Color.RESET);
-  }
-
   public static void println(Color color, String string) {
-    println(color + string + Color.RESET);
+    System.out.println(color + string + Color.RESET);
   }
 }

@@ -26,33 +26,32 @@ public class Main {
     // Create a new CPU
     CPU cpu = new CPU();
 
-    // Create a list of uninitialized processes
-    List<UninitializedProcess> uninitialized = new ArrayList<>();
-
-    // First batch
+    // First batch directly added to the CPU
     for (int i = 0; i < 4; i++)
       cpu.addProcess(new Process(String.format("p0%02d", i + 1), randomBurstTime()));
 
-    // Second batch arriving between 10 and 14
+    // Create a list of uninitialized processes
+    List<UninitializedProcess> uninitialized = new ArrayList<>();
+
+    // Second batch arriving between 10s and 14s
     for (int i = 0; i < 8; i++)
       uninitialized.add(new UninitializedProcess(String.format("p1%02d", i + 1), random10To14(), randomBurstTime()));
 
-    // Third batch arriving between 20 and 24
+    // Third batch arriving between 20s and 24s
     for (int i = 0; i < 16; i++)
       uninitialized.add(new UninitializedProcess(String.format("p2%02d", i + 1), random20To24(), randomBurstTime()));
 
-    // Sort the uninitialized processes into a priority queue by arrival time
+    // Put second and third batches into a priority queue sorted by arrival time
     MinHeap<UninitializedProcess> queue = new MinHeap<>(uninitialized);
     queue.heapify();
 
-    // Execute the CPU until all processes are done, adding new processes to the CPU
-    // when they arrive
+    // Execute the CPU until all processes are done, adding new ones when it's time
     while (!cpu.isIdle() || !queue.isEmpty()) {
       while (!queue.isEmpty() && queue.peek().arrivalTime() == cpu.currentTime()) {
         // Get the next process from the queue, log it and add it to the CPU
-        UninitializedProcess process = queue.remove();
+        Process process = queue.remove().initialize();
         cpu.log(Color.BLUE_BRIGHT, "New process: " + process.nameAndTime());
-        cpu.addProcess(process.initialize());
+        cpu.addProcess(process);
       }
 
       cpu.execute();

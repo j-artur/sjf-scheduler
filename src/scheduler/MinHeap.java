@@ -1,7 +1,6 @@
 package scheduler;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class MinHeap<T extends MinHeap.Item> {
@@ -12,7 +11,7 @@ public class MinHeap<T extends MinHeap.Item> {
   private List<T> heap;
 
   public MinHeap(List<T> list) {
-    this.heap = list;
+    heap = list;
   }
 
   private void moveUp(int i) {
@@ -82,20 +81,11 @@ public class MinHeap<T extends MinHeap.Item> {
     return heap.get(0);
   }
 
-  public void forEach(Consumer<T> consumer) {
-    heap.forEach(consumer);
-  }
-
   public Stream<T> stream() {
     return heap.stream();
   }
 
   public boolean isEmpty() {
     return heap.isEmpty();
-  }
-
-  @Override
-  public String toString() {
-    return heap.toString();
   }
 }

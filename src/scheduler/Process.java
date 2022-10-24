@@ -5,16 +5,14 @@ public class Process implements MinHeap.Item {
 
   private final int id;
   private final String name;
-  private final int burstTime;
   private int remainingTime;
   private final String message;
 
   public Process(String name, int burstTime) {
     this.id = ++nextId;
     this.name = name;
-    this.burstTime = burstTime;
     this.remainingTime = burstTime;
-    this.message = "Hello, I'm process " + name + " (id " + id + ")!";
+    this.message = "Hi, I'm process " + name + " (id " + id + ").";
   }
 
   public int id() {
@@ -23,10 +21,6 @@ public class Process implements MinHeap.Item {
 
   public String name() {
     return name;
-  }
-
-  public int burstTime() {
-    return burstTime;
   }
 
   public int remainingTime() {
