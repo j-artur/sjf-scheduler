@@ -1,7 +1,7 @@
 package scheduler;
 
 public class Process implements MinHeap.Item {
-  private static int nextId = 0;
+  private static int nextId = 1;
 
   private final int id;
   private final String name;
@@ -9,7 +9,7 @@ public class Process implements MinHeap.Item {
   private final String message;
 
   public Process(String name, int burstTime) {
-    this.id = ++nextId;
+    this.id = nextId++;
     this.name = name;
     this.remainingTime = burstTime;
     this.message = "Hi, I'm process " + name + " (id " + id + ").";
@@ -31,7 +31,7 @@ public class Process implements MinHeap.Item {
     return message;
   }
 
-  public void tick() {
+  public void tickDown() {
     remainingTime--;
   }
 

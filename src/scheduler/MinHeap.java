@@ -12,16 +12,20 @@ public class MinHeap<T extends MinHeap.Item> {
 
   public MinHeap(List<T> list) {
     heap = list;
+    heapify();
+  }
+
+  private void swap(int i, int j) {
+    T tmp = heap.get(i);
+    heap.set(i, heap.get(j));
+    heap.set(j, tmp);
   }
 
   private void moveUp(int i) {
     int j = (i - 1) / 2;
 
     if (j >= 0 && heap.get(i).key() < heap.get(j).key()) {
-      T temp = heap.get(i);
-      heap.set(i, heap.get(j));
-      heap.set(j, temp);
-
+      swap(i, j);
       moveUp(j);
     }
   }
@@ -38,15 +42,12 @@ public class MinHeap<T extends MinHeap.Item> {
     }
 
     if (heap.get(j).key() < heap.get(i).key()) {
-      T temp = heap.get(i);
-      heap.set(i, heap.get(j));
-      heap.set(j, temp);
-
+      swap(i, j);
       moveDown(j);
     }
   }
 
-  public void heapify() {
+  private void heapify() {
     for (int i = (heap.size() - 1) / 2; i >= 0; i--) {
       moveDown(i);
     }

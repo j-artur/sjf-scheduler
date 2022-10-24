@@ -43,10 +43,6 @@ public class Main {
 
     // Put second and third batches into a priority queue sorted by arrival time
     MinHeap<UninitializedProcess> queue = new MinHeap<>(uninitialized);
-    queue.heapify();
-
-    // Print the waiting queue before starting the CPU
-    cpu.printWaitingQueue();
 
     // Execute the CPU until all processes are done, adding new ones when it's time
     while (!cpu.isIdle() || !queue.isEmpty()) {
