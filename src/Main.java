@@ -45,12 +45,15 @@ public class Main {
     MinHeap<UninitializedProcess> queue = new MinHeap<>(uninitialized);
     queue.heapify();
 
+    // Print the waiting queue before starting the CPU
+    cpu.printWaitingQueue();
+
     // Execute the CPU until all processes are done, adding new ones when it's time
     while (!cpu.isIdle() || !queue.isEmpty()) {
       while (!queue.isEmpty() && queue.peek().arrivalTime() == cpu.currentTime()) {
         // Get the next process from the queue, log it and add it to the CPU
         Process process = queue.remove().initialize();
-        cpu.log(Color.BLUE_BRIGHT, "New process: " + process.nameAndTime());
+        cpu.log(Color.BLUE_BRIGHT, "New process: " + process);
         cpu.addProcess(process);
       }
 

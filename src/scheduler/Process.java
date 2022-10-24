@@ -39,16 +39,13 @@ public class Process implements MinHeap.Item {
     return remainingTime <= 0;
   }
 
-  public String nameAndId() {
-    return name + " (id " + id + ")";
-  }
-
-  public String nameAndTime() {
-    return name + " (" + remainingTime + "s)";
+  @Override
+  public int key() {
+    return remainingTime;
   }
 
   @Override
-  public int priority() {
-    return remainingTime;
+  public String toString() {
+    return name + " (" + remainingTime + "s)";
   }
 }

@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public class MinHeap<T extends MinHeap.Item> {
   public interface Item {
-    int priority();
+    int key();
   }
 
   private List<T> heap;
@@ -17,7 +17,7 @@ public class MinHeap<T extends MinHeap.Item> {
   private void moveUp(int i) {
     int j = (i - 1) / 2;
 
-    if (j >= 0 && heap.get(i).priority() < heap.get(j).priority()) {
+    if (j >= 0 && heap.get(i).key() < heap.get(j).key()) {
       T temp = heap.get(i);
       heap.set(i, heap.get(j));
       heap.set(j, temp);
@@ -33,11 +33,11 @@ public class MinHeap<T extends MinHeap.Item> {
       return;
 
     if (j < heap.size() - 1) {
-      if (heap.get(j).priority() > heap.get(j + 1).priority())
+      if (heap.get(j).key() > heap.get(j + 1).key())
         j++;
     }
 
-    if (heap.get(j).priority() < heap.get(i).priority()) {
+    if (heap.get(j).key() < heap.get(i).key()) {
       T temp = heap.get(i);
       heap.set(i, heap.get(j));
       heap.set(j, temp);

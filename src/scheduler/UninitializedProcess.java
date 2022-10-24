@@ -6,7 +6,7 @@ public record UninitializedProcess(String name, int arrivalTime, int burstTime) 
   }
 
   @Override
-  public int priority() {
+  public int key() {
     return arrivalTime;
   }
 }

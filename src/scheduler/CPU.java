@@ -40,18 +40,12 @@ public class CPU {
   public void execute() {
     // If there is no current process, get the next process from the waiting queue
     if (currentProcess == null) {
-      if (currentTime == 0)
-        log("Starting CPU.");
-      else
-        log("CPU is idle.");
-
-      printWaitingQueue();
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
     } else
     // If the current process is done, remove it from the CPU and get the next
     if (currentProcess.isDone()) {
-      log(currentProcess.nameAndId() + " is done.");
+      log(currentProcess.name() + " is done.");
       printWaitingQueue();
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
@@ -60,6 +54,7 @@ public class CPU {
     // to the waiting queue and get the next process from the waiting queue to the
     // CPU
     if (processTimeCounter == 3) {
+      log(currentProcess.name() + " was executed for 3 seconds. Moving to the waiting queue.");
       waitingQueue.insert(currentProcess);
       printWaitingQueue();
       currentProcess = waitingQueue.remove();
@@ -68,11 +63,10 @@ public class CPU {
 
     // Execute the current process
     if (currentProcess != null) {
-      // If the current process just started, print its message
-      if (processTimeCounter == 0) {
-        log("Selecting " + currentProcess.nameAndTime());
-        log(Color.GREEN, currentProcess.message());
-      }
+      // If the process was just chosen, log it
+      if (processTimeCounter == 0)
+        log("Selecting " + currentProcess + ".");
+      log(Color.GREEN, currentProcess.message());
 
       currentProcess.tick();
       processTimeCounter++;
