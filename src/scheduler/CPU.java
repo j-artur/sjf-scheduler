@@ -45,12 +45,14 @@ public class CPU {
       else
         log("CPU is idle.");
 
+      printWaitingQueue();
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
     } else
     // If the current process is done, remove it from the CPU and get the next
     if (currentProcess.isDone()) {
       log(currentProcess.nameAndId() + " is done.");
+      printWaitingQueue();
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
     } else
@@ -59,6 +61,7 @@ public class CPU {
     // CPU
     if (processTimeCounter == 3) {
       waitingQueue.insert(currentProcess);
+      printWaitingQueue();
       currentProcess = waitingQueue.remove();
       processTimeCounter = 0;
     }
